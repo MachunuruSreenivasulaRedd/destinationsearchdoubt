@@ -1,5 +1,6 @@
+import {Component} from 'react'
 import './App.css'
-import DestinationSearch from './components/DestinationSearch/index.js'
+import DestinationSearch from './components/DestinationSearch'
 
 const destinationsList = [
   {
@@ -68,6 +69,41 @@ const destinationsList = [
   },
 ]
 
-const App = () => <DestinationSearch destinationsList={destinationsList} />
+class App extends Component {
+  state = {
+    searchInput: '',
+  }
+
+  onChangeSearchInput = event => {
+    this.setState({
+      searchInput: event.target.value,
+    })
+  }
+
+  render() {
+    const {searchInput} = this.state
+    const searchResults = destinationsList.filter(eachUser =>
+      eachUser.name.includes(searchInput),
+    )
+    return (
+      <div className="app-container">
+        <h1 className="title">Destination Search</h1>
+        <input
+          type="search"
+          onChange={this.onChangeSearchInput}
+          value={searchInput}
+          placeholder="search"
+        />
+        <img
+          className="icon"
+          src="
+            https://assets.ccbp.in/frontend/react-js/destinations-search-icon-img.png"
+          alt="search icon"
+        />
+        <DestinationSearch destinationsLists={searchResults} />
+      </div>
+    )
+  }
+}
 
 export default App
